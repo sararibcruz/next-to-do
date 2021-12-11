@@ -19,9 +19,18 @@ export default function Home() {
     console.log('adicionarItens');
 
     setLista([...lista, item]);
-
+    setItem('')
     console.log(lista);
   };
+
+  const alterarItem = (evento) => {
+    setItem(evento.target.value);
+  };
+
+  const removerItem = (posicao) => {
+    const novaLista = lista.filter((item, index) => index != posicao);
+    setLista(novaLista);
+  }
 
   return (
     <div className={styles.container}>
@@ -32,13 +41,17 @@ export default function Home() {
       </Head>
       <h1 className={styles.title}>To do list - Next</h1>
       <form onSubmit={adicionarItens}>
-        <input type="text" autoFocus value={item} onChange={(evento) => setItem(evento.target.value)} />
+        <input type="text" autoFocus value={item} onChange={alterarItem} autoFocus />
+        <button type="submit">Adicionar</button>
       </form>
-      <div>
+      <ul>
         {lista.map((item, posicao) => (
-          <p key={posicao}>{item}</p>
+          <li key={posicao}>
+            {item}
+            <button onClick={() => removerItem(posicao)}>Remover</button>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
 )
 }
